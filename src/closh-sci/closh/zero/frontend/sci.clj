@@ -13,6 +13,20 @@
    [clojure.tools.reader.reader-types :as r]
    [closh.zero.babashka-main :as babashka-main]))
 
+(defn repl-prompt []
+  (try
+    (eval/eval '(print (closh-prompt)))
+    (catch Exception e
+      (println "Error printing prompt:" (:cause (Throwable->map e)))
+      (println "Please check the definition of closh-prompt function in your ~/.closhrc")
+      (print "$ ")))
+  (let [title
+        (try
+          (eval/eval '(closh-title))
+          (catch Exception e
+            (str "closh: Error in (closh-title): " (:cause (Throwable->map e)))))]
+    (.print System/out (str "\u001b]0;" title "\u0007"))))
+
 (defn repl-print
   [result]
   (when-not (or (nil? result)
@@ -40,7 +54,8 @@
                   (reader/read in)))
                (closh.zero.pipeline/wait-for-pipeline))))
     :eval eval/eval
-    :print repl-print)
+    :print repl-print
+    :prompt repl-prompt)
   (prn)
   (System/exit 0))
 
