@@ -126,7 +126,8 @@
                                              'pipe-multi pipeline/pipe-multi
                                              'process-output pipeline/process-output}
                        'closh.zero.platform.process {'exit-code process/exit-code
-                                                     'wait process/wait}
+                                                     'wait process/wait
+                                                     'cwd process/cwd}
                        'closh.zero.core {'expand-variable closh-core/expand-variable
                                          'expand-tilde closh-core/expand-tilde
                                          'expand-filename closh-core/expand-filename

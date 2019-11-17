@@ -11,7 +11,7 @@
    [closh.zero.reader :as reader]
    [closh.zero.env :as env]
    [clojure.tools.reader.reader-types :as r]
-   [closh.zero.utils.clojure-main :as clojure-main]))
+   [closh.zero.babashka-main :as babashka-main]))
 
 (defn repl-print
   [result]
@@ -26,7 +26,7 @@
 
 (defn repl-opt
   [[_ & args] inits]
-  (clojure-main/repl
+  (babashka-main/repl
     :init (fn []
             ;;(clojure-main/initialize args inits)
             ;;(apply require repl-requires)
