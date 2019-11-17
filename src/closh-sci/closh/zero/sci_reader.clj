@@ -101,9 +101,8 @@
   ([r] (read {:all true :features #{:clj} :eof ::parser/eof} r))
   ([opts r]
    (let [opts (parser/normalize-opts opts)
-         ctx (assoc opts ::expected-delimiter nil)
-         v (read* ctx r)]
-     (if (identical? ::eof v) nil v))))
+         ctx (assoc opts ::expected-delimiter nil)]
+     (read* ctx r))))
 
 (defn read-all
   ([r] (read-all {:all true :features #{:clj} :eof ::parser/eof} r))

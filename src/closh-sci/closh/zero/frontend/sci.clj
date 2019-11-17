@@ -48,11 +48,15 @@
             (eval/eval env/*closh-environment-init*))
     :read
       (let [in (r/indexing-push-back-reader (r/push-back-reader *in*))]
-        (fn [request-prompt request-exit]
-          `(-> ~(closh.zero.compiler/compile-interactive
-                 (closh.zero.parser/parse
-                  (reader/read in)))
-               (closh.zero.pipeline/wait-for-pipeline))))
+        (fn [_request-prompt request-exit]
+          (if (r/peek-char in)
+            (let [form (reader/read in)]
+              (if (identical? form :edamame.impl.parser/eof)
+                request-exit
+                `(-> ~(closh.zero.compiler/compile-interactive
+                       (closh.zero.parser/parse form))
+                     (closh.zero.pipeline/wait-for-pipeline))))
+            request-exit)))
     :eval eval/eval
     :print repl-print
     :prompt repl-prompt)
